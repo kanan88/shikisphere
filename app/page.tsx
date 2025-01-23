@@ -1,21 +1,40 @@
 "use client";
+export const dynamic = "force-dynamic";
 
+import { useRouter, useSearchParams } from "next/navigation";
+import { useEffect, useState } from "react";
 import AnimeCard, { AnimeProps } from "@/components/AnimeCard";
 import { ModeToggle } from "@/components/ModeToggle";
 import Pagination from "@/components/Pagination";
 import { Button } from "@/components/ui/button";
 import { fetchAnime } from "@/lib/actions/anime.actions";
 import { Search } from "lucide-react";
-import { useState } from "react";
+import Loading from "@/components/Loading";
 
-const HomePage = () => {
-  const [query, setQuery] = useState("");
-  const [results, setResults] = useState([]);
-  const [page, setPage] = useState(1);
+const SearchPage = () => {
+  const router = useRouter();
+  const searchParams = useSearchParams();
+
+  const [query, setQuery] = useState(searchParams.get("q") || "");
+  const [results, setResults] = useState<AnimeProps[]>([]);
+  const [page, setPage] = useState(Number(searchParams.get("page")) || 1);
+  const [loading, setLoading] = useState(false);
 
   const fetchResults = async () => {
+    setLoading(true);
     const data = await fetchAnime(page, query);
     setResults(data);
+    setLoading(false);
+  };
+
+  useEffect(() => {
+    fetchResults();
+  }, []);
+
+  const handleSearch = () => {
+    router.push(`/?q=${query}&page=1`);
+    setPage(1);
+    fetchResults();
   };
 
   return (
@@ -33,28 +52,36 @@ const HomePage = () => {
           placeholder="Search for an anime..."
           className="border p-2 rounded w-full"
         />
-        <Button onClick={fetchResults} className="px-4 py-2 rounded">
+        <Button onClick={handleSearch} className="px-4 py-2 rounded">
           <Search size={20} />
         </Button>
       </section>
 
-      <section className="min-h-screen/3 grid lg:grid-cols-4 md:grid-cols-3 sm:grid-cols-2 grid-cols-1 gap-10">
-        {results.map((item: AnimeProps, index: number) => (
-          <AnimeCard key={item.id} anime={item} index={index} />
-        ))}
-      </section>
-
-      {results.length > 0 && (
-        <section>
-          <Pagination
-            page={page}
-            setPage={setPage}
-            fetchResults={fetchResults}
-          />
-        </section>
+      {loading ? (
+        <Loading />
+      ) : (
+        <>
+          {results.length > 0 && (
+            <section>
+              <Pagination
+                page={page}
+                setPage={(newPage) => {
+                  router.push(`/?q=${query}&page=${newPage}`);
+                  setPage(newPage);
+                }}
+                query={query}
+              />
+            </section>
+          )}
+          <section className="grid lg:grid-cols-4 md:grid-cols-3 sm:grid-cols-2 grid-cols-1 gap-10">
+            {results.map((item: AnimeProps, index: number) => (
+              <AnimeCard key={item.id} anime={item} index={index} />
+            ))}
+          </section>
+        </>
       )}
     </main>
   );
 };
 
-export default HomePage;
+export default SearchPage;
