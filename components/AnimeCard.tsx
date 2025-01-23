@@ -30,13 +30,11 @@ function AnimeCard({ anime }: AnimeCardProps) {
       </div>
       <div className="py-4 flex flex-col gap-3">
         <div className="flex justify-between items-center gap-1">
-          <h2 className="font-bold text-white text-xl line-clamp-1 w-full">
+          <h2 className="font-bold  text-xl line-clamp-1 w-full">
             {anime.name}
           </h2>
-          <div className="py-1 px-2 bg-[#161921] rounded-sm">
-            <p className="text-white text-sm font-bold capitalize">
-              {anime.kind}
-            </p>
+          <div className="py-1 px-2 rounded-sm">
+            <p className=" text-sm font-bold capitalize">{anime.kind}</p>
           </div>
         </div>
         <div className="flex gap-4 items-center">
@@ -48,7 +46,7 @@ function AnimeCard({ anime }: AnimeCardProps) {
               height={20}
               className="object-contain"
             />
-            <p className="text-base text-white font-bold">
+            <p className="text-base font-bold">
               {anime.episodes || anime.episodes_aired}
             </p>
           </div>

@@ -2,8 +2,8 @@
 
 import { useRouter, useSearchParams } from "next/navigation";
 import { useCallback, useEffect, useState } from "react";
-import AnimeCard, { AnimeProps } from "@/components/AnimeCard";
-import { ModeToggle } from "@/components/ModeToggle";
+import AnimeCard, { type AnimeProps } from "@/components/AnimeCard";
+import ModeToggle from "@/components/ModeToggle";
 import Pagination from "@/components/Pagination";
 import { Button } from "@/components/ui/button";
 import { fetchAnime } from "@/lib/actions/anime.actions";
@@ -30,7 +30,7 @@ const SearchAnime = () => {
     return () => clearTimeout(timer);
   }, []);
 
-  // Fetch anime based on query and page
+  // Fetch results when `page` or `debouncedQuery` changes
   const fetchResults = useCallback(async () => {
     setLoading(true);
     try {
@@ -41,7 +41,6 @@ const SearchAnime = () => {
     }
   }, [page, debouncedQuery]);
 
-  // Fetch results when `page` or `debouncedQuery` changes
   useEffect(() => {
     fetchResults();
   }, [fetchResults]);
@@ -74,7 +73,7 @@ const SearchAnime = () => {
           value={query}
           onChange={(e) => setQuery(e.target.value)}
           placeholder="Search for an anime..."
-          className="border p-2 rounded w-full"
+          className="border p-2 rounded w-full outline-none"
         />
         <Button onClick={handleSearch} className="px-4 py-2 rounded">
           <Search size={20} />
