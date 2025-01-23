@@ -17,7 +17,7 @@ interface AnimeCardProps {
   index: number;
 }
 
-function AnimeCard({ anime }: AnimeCardProps) {
+const AnimeCard = ({ anime }: AnimeCardProps) => {
   return (
     <div className="max-w-sm rounded relative w-full">
       <div className="relative w-full h-[37vh]">
@@ -64,6 +64,6 @@ function AnimeCard({ anime }: AnimeCardProps) {
       </div>
     </div>
   );
-}
+};
 
 export default AnimeCard;

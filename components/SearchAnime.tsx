@@ -85,23 +85,25 @@ const SearchAnime = () => {
       ) : (
         <>
           {results.length > 0 && (
-            <section>
-              <Pagination
-                page={page}
-                setPage={(newPage) => {
-                  router.push(`/?q=${query}&page=${newPage}`);
-                  setPage(newPage);
-                }}
-                query={query}
-                resultsLength={results.length}
-              />
-            </section>
+            <>
+              <section>
+                <Pagination
+                  page={page}
+                  setPage={(newPage) => {
+                    router.push(`/?q=${query}&page=${newPage}`);
+                    setPage(newPage);
+                  }}
+                  query={query}
+                  resultsLength={results.length}
+                />
+              </section>
+              <section className="grid lg:grid-cols-4 md:grid-cols-3 sm:grid-cols-2 grid-cols-1 gap-10">
+                {results.map((item: AnimeProps, index: number) => (
+                  <AnimeCard key={item.id} anime={item} index={index} />
+                ))}
+              </section>
+            </>
           )}
-          <section className="grid lg:grid-cols-4 md:grid-cols-3 sm:grid-cols-2 grid-cols-1 gap-10">
-            {results.map((item: AnimeProps, index: number) => (
-              <AnimeCard key={item.id} anime={item} index={index} />
-            ))}
-          </section>
         </>
       )}
     </main>

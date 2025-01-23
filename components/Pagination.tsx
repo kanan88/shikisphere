@@ -9,12 +9,12 @@ interface PaginationProps {
   resultsLength: number;
 }
 
-const Pagination: React.FC<PaginationProps> = ({
+const Pagination = ({
   page,
   setPage,
   query,
   resultsLength,
-}) => {
+}: PaginationProps) => {
   const router = useRouter();
 
   const handleNext = () => {
