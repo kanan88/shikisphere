@@ -4,6 +4,7 @@ import "./globals.css";
 
 import Header from "@/components/Header";
 import Footer from "@/components/Footer";
+import { ThemeProvider } from "@/components/ui/theme-provider";
 
 const dmSans = DM_Sans({ subsets: ["latin"] });
 
@@ -18,11 +19,18 @@ const RootLayout = ({
   children: React.ReactNode;
 }>) => {
   return (
-    <html lang="en">
+    <html lang="en" suppressHydrationWarning>
       <body className={dmSans.className}>
-        <main className="max-w-7xl mx-auto bg-[#0F1117]">
+        <main className="max-w-7xl mx-auto bg-white dark:bg-[#0F1117]">
           <Header />
-          {children}
+          <ThemeProvider
+            attribute="class"
+            defaultTheme="system"
+            enableSystem
+            disableTransitionOnChange
+          >
+            {children}
+          </ThemeProvider>
           <Footer />
         </main>
       </body>
