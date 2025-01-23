@@ -6,9 +6,15 @@ interface PaginationProps {
   page: number;
   setPage: React.Dispatch<React.SetStateAction<number>>;
   query: string;
+  resultsLength: number;
 }
 
-const Pagination: React.FC<PaginationProps> = ({ page, setPage, query }) => {
+const Pagination: React.FC<PaginationProps> = ({
+  page,
+  setPage,
+  query,
+  resultsLength,
+}) => {
   const router = useRouter();
 
   const handleNext = () => {
@@ -36,7 +42,11 @@ const Pagination: React.FC<PaginationProps> = ({ page, setPage, query }) => {
         Previous
       </Button>
 
-      <Button onClick={handleNext} className="px-4 py-2 rounded">
+      <Button
+        onClick={handleNext}
+        disabled={resultsLength < 8}
+        className="px-4 py-2 rounded"
+      >
         Next
         <ArrowBigLeft size={20} className="rotate-180" />
       </Button>

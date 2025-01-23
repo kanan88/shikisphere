@@ -93,6 +93,7 @@ const SearchAnime = () => {
                   setPage(newPage);
                 }}
                 query={query}
+                resultsLength={results.length}
               />
             </section>
           )}
