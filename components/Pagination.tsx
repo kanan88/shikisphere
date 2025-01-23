@@ -41,7 +41,7 @@ const Pagination: React.FC<PaginationProps> = ({
         <ArrowBigLeft size={20} />
         Previous
       </Button>
-
+      <span>page {page}</span>
       <Button
         onClick={handleNext}
         disabled={resultsLength < 8}
