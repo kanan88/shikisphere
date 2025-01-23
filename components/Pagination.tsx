@@ -39,7 +39,7 @@ const Pagination = ({
         className="px-4 py-2 rounded"
       >
         <ArrowBigLeft size={20} />
-        Previous
+        Prev
       </Button>
       <span>page {page}</span>
       <Button

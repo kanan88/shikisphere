@@ -9,6 +9,7 @@ import { Button } from "@/components/ui/button";
 import { fetchAnime } from "@/lib/actions/anime.actions";
 import { Search } from "lucide-react";
 import Loading from "@/components/Loading";
+import { Input } from "./ui/input";
 
 const SearchAnime = () => {
   const router = useRouter();
@@ -68,7 +69,7 @@ const SearchAnime = () => {
       </section>
 
       <section className="flex items-center justify-between gap-2">
-        <input
+        <Input
           type="text"
           value={query}
           onChange={(e) => setQuery(e.target.value)}
