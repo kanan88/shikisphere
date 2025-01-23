@@ -1,7 +1,7 @@
 "use client";
 
 import { useRouter, useSearchParams } from "next/navigation";
-import { Suspense, useCallback, useEffect, useState } from "react";
+import { useCallback, useEffect, useState } from "react";
 import AnimeCard, { AnimeProps } from "@/components/AnimeCard";
 import { ModeToggle } from "@/components/ModeToggle";
 import Pagination from "@/components/Pagination";
@@ -14,9 +14,11 @@ const HomePage = () => {
   const router = useRouter();
   const searchParams = useSearchParams();
 
-  const [query, setQuery] = useState(searchParams.get("q") || "");
+  const [query, setQuery] = useState<string>(() => searchParams.get("q") || "");
   const [results, setResults] = useState<AnimeProps[]>([]);
-  const [page, setPage] = useState(Number(searchParams.get("page")) || 1);
+  const [page, setPage] = useState<number>(
+    () => Number(searchParams.get("page")) || 1
+  );
   const [loading, setLoading] = useState(false);
   const [debouncedQuery, setDebouncedQuery] = useState(query);
 
@@ -28,7 +30,7 @@ const HomePage = () => {
     return () => clearTimeout(timer);
   }, [query]);
 
-  // Fetch data based on query and page
+  // Fetch anime based on query and page
   const fetchResults = useCallback(async () => {
     setLoading(true);
     try {
@@ -39,18 +41,18 @@ const HomePage = () => {
     }
   }, [page, debouncedQuery]);
 
-  // Fetch results when page or debouncedQuery changes
+  // Fetch results when `page` or `debouncedQuery` changes
   useEffect(() => {
     fetchResults();
   }, [fetchResults]);
 
   // Sync state with URL parameters
   useEffect(() => {
-    const currentQuery = searchParams.get("q") || "";
-    const currentPage = Number(searchParams.get("page")) || 1;
+    const newQuery = searchParams.get("q") || "";
+    const newPage = Number(searchParams.get("page")) || 1;
 
-    if (currentQuery !== query) setQuery(currentQuery);
-    if (currentPage !== page) setPage(currentPage);
+    if (newQuery !== query) setQuery(newQuery);
+    if (newPage !== page) setPage(newPage);
   }, [searchParams]);
 
   // Handle search button click
@@ -60,51 +62,49 @@ const HomePage = () => {
   };
 
   return (
-    <Suspense fallback={<Loading />}>
-      <main className="sm:p-16 py-16 px-8 flex flex-col gap-10">
-        <section className="flex justify-between items-center mb-6">
-          <h2 className="text-3xl font-bold">Explore Anime</h2>
-          <ModeToggle />
-        </section>
+    <main className="sm:p-16 py-16 px-8 flex flex-col gap-10">
+      <section className="flex justify-between items-center mb-6">
+        <h2 className="text-3xl font-bold">Explore Anime</h2>
+        <ModeToggle />
+      </section>
 
-        <section className="flex items-center justify-between gap-2">
-          <input
-            type="text"
-            value={query}
-            onChange={(e) => setQuery(e.target.value)}
-            placeholder="Search for an anime..."
-            className="border p-2 rounded w-full"
-          />
-          <Button onClick={handleSearch} className="px-4 py-2 rounded">
-            <Search size={20} />
-          </Button>
-        </section>
+      <section className="flex items-center justify-between gap-2">
+        <input
+          type="text"
+          value={query}
+          onChange={(e) => setQuery(e.target.value)}
+          placeholder="Search for an anime..."
+          className="border p-2 rounded w-full"
+        />
+        <Button onClick={handleSearch} className="px-4 py-2 rounded">
+          <Search size={20} />
+        </Button>
+      </section>
 
-        {loading ? (
-          <Loading />
-        ) : (
-          <>
-            {results.length > 0 && (
-              <section>
-                <Pagination
-                  page={page}
-                  setPage={(newPage) => {
-                    router.push(`/?q=${query}&page=${newPage}`);
-                    setPage(newPage);
-                  }}
-                  query={query}
-                />
-              </section>
-            )}
-            <section className="grid lg:grid-cols-4 md:grid-cols-3 sm:grid-cols-2 grid-cols-1 gap-10">
-              {results.map((item: AnimeProps, index: number) => (
-                <AnimeCard key={item.id} anime={item} index={index} />
-              ))}
+      {loading ? (
+        <Loading />
+      ) : (
+        <>
+          {results.length > 0 && (
+            <section>
+              <Pagination
+                page={page}
+                setPage={(newPage) => {
+                  router.push(`/?q=${query}&page=${newPage}`);
+                  setPage(newPage);
+                }}
+                query={query}
+              />
             </section>
-          </>
-        )}
-      </main>
-    </Suspense>
+          )}
+          <section className="grid lg:grid-cols-4 md:grid-cols-3 sm:grid-cols-2 grid-cols-1 gap-10">
+            {results.map((item: AnimeProps, index: number) => (
+              <AnimeCard key={item.id} anime={item} index={index} />
+            ))}
+          </section>
+        </>
+      )}
+    </main>
   );
 };
 
