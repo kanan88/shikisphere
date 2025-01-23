@@ -1,7 +1,13 @@
 "use client";
 
 import { AnimeProps } from "@/components/AnimeCard";
-import React, { createContext, useEffect, useState, ReactNode } from "react";
+import {
+  createContext,
+  useEffect,
+  useState,
+  ReactNode,
+  useContext,
+} from "react";
 
 type ShortlistContextType = {
   shortlist: AnimeProps[];
@@ -16,17 +22,21 @@ export const ShortlistContext = createContext<ShortlistContextType | undefined>(
 
 const ShortlistProvider = ({ children }: { children: ReactNode }) => {
   const [shortlist, setShortlist] = useState<AnimeProps[]>([]);
+  const [isInitialized, setIsInitialized] = useState(false);
 
   useEffect(() => {
     const storedShortlist = localStorage.getItem("shortlist");
     if (storedShortlist) {
       setShortlist(JSON.parse(storedShortlist));
     }
+    setIsInitialized(true);
   }, []);
 
   useEffect(() => {
-    localStorage.setItem("shortlist", JSON.stringify(shortlist));
-  }, [shortlist]);
+    if (isInitialized) {
+      localStorage.setItem("shortlist", JSON.stringify(shortlist));
+    }
+  }, [shortlist, isInitialized]);
 
   const addToShortlist = (anime: AnimeProps) => {
     if (!shortlist.some((item) => item.id === anime.id)) {
@@ -51,12 +61,14 @@ const ShortlistProvider = ({ children }: { children: ReactNode }) => {
   );
 };
 
+export default ShortlistProvider;
+
 export const useShortlist = () => {
-  const context = React.useContext(ShortlistContext);
-  if (context === undefined) {
+  const context = useContext(ShortlistContext);
+
+  if (!context) {
     throw new Error("useShortlist must be used within a ShortlistProvider");
   }
+
   return context;
 };
-
-export default ShortlistProvider;

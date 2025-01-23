@@ -5,6 +5,8 @@ import "./globals.css";
 import Header from "@/components/Header";
 import Footer from "@/components/Footer";
 import { ThemeProvider } from "@/components/ui/theme-provider";
+import ShortlistProvider from "@/contexts/ShortlistProvider";
+import { Toaster } from "@/components/ui/toaster";
 
 const dmSans = DM_Sans({ subsets: ["latin"] });
 
@@ -22,16 +24,19 @@ const RootLayout = ({
     <html lang="en" suppressHydrationWarning>
       <body className={dmSans.className}>
         <main className="max-w-7xl mx-auto bg-white dark:bg-[#0F1117]">
-          <Header />
           <ThemeProvider
             attribute="class"
             defaultTheme="system"
             enableSystem
             disableTransitionOnChange
           >
-            {children}
+            <Header />
+            <ShortlistProvider>
+              {children}
+              <Toaster />
+            </ShortlistProvider>
+            <Footer />
           </ThemeProvider>
-          <Footer />
         </main>
       </body>
     </html>

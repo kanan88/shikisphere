@@ -2,12 +2,13 @@
 
 import { useRouter, useSearchParams } from "next/navigation";
 import { useCallback, useEffect, useState } from "react";
+import Link from "next/link";
 import AnimeCard, { type AnimeProps } from "@/components/AnimeCard";
 import ModeToggle from "@/components/ModeToggle";
 import Pagination from "@/components/Pagination";
 import { Button } from "@/components/ui/button";
 import { fetchAnime } from "@/lib/actions/anime.actions";
-import { Search } from "lucide-react";
+import { ListCheckIcon, Search } from "lucide-react";
 import Loading from "@/components/Loading";
 import { Input } from "./ui/input";
 
@@ -61,11 +62,24 @@ const SearchAnime = () => {
     setPage(1);
   };
 
+  const handleKeyPress = (e: React.KeyboardEvent<HTMLInputElement>) => {
+    if (e.key === "Enter") {
+      handleSearch();
+    }
+  };
+
   return (
     <main className="sm:p-16 py-16 px-8 flex flex-col gap-10">
       <section className="flex justify-between items-center mb-6">
-        <h2 className="text-3xl font-bold">Explore Anime</h2>
-        <ModeToggle />
+        <h2 className="text-3xl font-bold hidden sm:block">Explore Anime</h2>
+        <div className="flex items-center gap-4">
+          <Link href="/shortlist">
+            <Button>
+              <ListCheckIcon />
+            </Button>
+          </Link>
+          <ModeToggle />
+        </div>
       </section>
 
       <section className="flex items-center justify-between gap-2">
@@ -73,6 +87,7 @@ const SearchAnime = () => {
           type="text"
           value={query}
           onChange={(e) => setQuery(e.target.value)}
+          onKeyPress={handleKeyPress}
           placeholder="Search for an anime..."
           className="border p-2 rounded w-full outline-none"
         />
