@@ -67,4 +67,4 @@ This project is a simple, maintainable, modular, and scalable web application bu
 
 #### 5. Testing Scope
 
-- Focused on some components due to time constraints, though broader test coverage is a goal for future iterations.
+- Focused on implementation due to time constraints, though broader test coverage is a goal for future iterations.
