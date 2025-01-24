@@ -6,7 +6,7 @@ https://shikisphere.vercel.app/
 
 ### Lighhouse Score
 
-![alt text](image.png)
+![alt text](lighthouseScore.png)
 
 ### Overview
 
