@@ -1,6 +1,5 @@
-// Footer.test.tsx
 import { render, screen } from "@testing-library/react";
-import Footer from "./Footer";
+import Footer from "../components/Footer";
 import "@testing-library/jest-dom";
 
 describe("Footer", () => {
@@ -15,8 +14,8 @@ describe("Footer", () => {
   it("should render the logo link", () => {
     render(<Footer />);
 
-    const logoLink = screen.getAllByRole("link", { name: /logo/i });
-    expect(logoLink[0]).toHaveAttribute("href", "/");
+    const logoLink = screen.getByRole("link", { name: /logo/i });
+    expect(logoLink).toHaveAttribute("href", "/");
   });
 
   it("should render the GitHub link", () => {

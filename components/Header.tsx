@@ -7,7 +7,7 @@ const Header = () => {
       <div className="flex-1 flex flex-col gap-10">
         <Link href="/">
           <Image
-            src="./logo.svg"
+            src="/logo.svg"
             alt="logo"
             width={101}
             height={96}
