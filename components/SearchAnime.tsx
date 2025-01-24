@@ -11,10 +11,12 @@ import { fetchAnime } from "@/lib/actions/anime.actions";
 import { ListCheckIcon, Search } from "lucide-react";
 import Loading from "@/components/Loading";
 import { Input } from "./ui/input";
+import { useShortlist } from "@/contexts/ShortlistProvider";
 
 const SearchAnime = () => {
   const router = useRouter();
   const searchParams = useSearchParams();
+  const { shortlist } = useShortlist();
 
   const [query, setQuery] = useState<string>(() => searchParams.get("q") || "");
   const [results, setResults] = useState<AnimeProps[]>([]);
@@ -73,11 +75,14 @@ const SearchAnime = () => {
       <section className="flex justify-between items-center mb-6">
         <h2 className="text-3xl font-bold hidden sm:block">Explore Anime</h2>
         <div className="flex items-center gap-4">
-          <Link href="/shortlist">
-            <Button>
-              <ListCheckIcon />
-            </Button>
-          </Link>
+          {shortlist.length > 0 && (
+            <Link href="/shortlist">
+              <Button>
+                <ListCheckIcon />
+                <span>Your animes</span>
+              </Button>
+            </Link>
+          )}
           <ModeToggle />
         </div>
       </section>

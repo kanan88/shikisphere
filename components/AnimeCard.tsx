@@ -79,10 +79,11 @@ const AnimeCard = ({ anime }: AnimeCardProps) => {
                   toast({
                     title: "Anime removed!",
                     description: "Successfully removed from the list",
+                    variant: "destructive",
                   });
                   removeFromShortlist(anime.id);
                 }}
-                className="hover:bg-red-500"
+                className="bg-red-400 hover:bg-red-500"
               >
                 <Minus />
               </Button>
