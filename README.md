@@ -21,9 +21,10 @@ This project is a simple, maintainable, modular, and scalable web application bu
 
 ### Setup Instructions
 
-1. Clone the repository from `git@github.com:kanan88/shikisphere.git`
+1. Clone the repository via terminal: `git clone git@github.com:kanan88/shikisphere.git`
 2. Run `npm install`
-3. Run `npm run dev` to start the development server
+3. Run `npm run dev` to start the development server on `localhost:3000`
+4. Run `npm run test` to run test cases
 
 ### Key Features
 
@@ -67,4 +68,4 @@ This project is a simple, maintainable, modular, and scalable web application bu
 
 #### 5. Testing Scope
 
-- Focused on implementation due to time constraints, though broader test coverage is a goal for future iterations.
+- Focused on testing Header and Footer components due to time constraints, though broader test coverage is a goal for future iterations.
