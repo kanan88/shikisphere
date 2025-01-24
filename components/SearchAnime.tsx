@@ -10,6 +10,7 @@ import Loading from "@/components/Loading";
 import { Input } from "./ui/input";
 import { useShortlist } from "@/contexts/ShortlistProvider";
 import { useAnimeSearch } from "@/hooks/use-anime-search";
+import NoResultsFound from "./NoResultsFound";
 
 const SearchAnime = () => {
   const {
@@ -65,7 +66,7 @@ const SearchAnime = () => {
         <Loading />
       ) : (
         <>
-          {results.length > 0 && (
+          {results.length > 0 ? (
             <>
               <section>
                 <Pagination
@@ -78,12 +79,15 @@ const SearchAnime = () => {
                   resultsLength={results.length}
                 />
               </section>
+
               <section className="grid lg:grid-cols-4 md:grid-cols-3 sm:grid-cols-2 grid-cols-1 gap-10">
                 {results.map((item: AnimeProps, index: number) => (
                   <AnimeCard key={item.id} anime={item} index={index} />
                 ))}
               </section>
             </>
+          ) : (
+            <NoResultsFound />
           )}
         </>
       )}

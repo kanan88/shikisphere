@@ -12,13 +12,15 @@ export function useAnimeSearch() {
   const [page, setPage] = useState<number>(
     () => Number(searchParams.get("page")) || 1
   );
-  const [loading, setLoading] = useState(false);
+  const [loading, setLoading] = useState(true);
   const [debouncedQuery, setDebouncedQuery] = useState(query);
 
   // Debounce query changes
   useEffect(() => {
     const timer = setTimeout(() => {
       setDebouncedQuery(query);
+      setPage(1);
+      router.push(`/?q=${query}&page=1`);
     }, 500);
     return () => clearTimeout(timer);
   }, [query]);
