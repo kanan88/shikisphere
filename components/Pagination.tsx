@@ -39,7 +39,7 @@ const Pagination = ({
         className="px-4 py-2 rounded"
       >
         <ArrowBigLeft size={20} />
-        Prev
+        <span className="hidden sm:inline-block">Prev</span>
       </Button>
       <span>page {page}</span>
       <Button
@@ -47,7 +47,7 @@ const Pagination = ({
         disabled={resultsLength < 8}
         className="px-4 py-2 rounded"
       >
-        Next
+        <span className="hidden sm:inline-block">Next</span>
         <ArrowBigLeft size={20} className="rotate-180" />
       </Button>
     </div>
