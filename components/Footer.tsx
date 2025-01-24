@@ -7,6 +7,7 @@ const Footer = () => {
       <p className="text-base font-bold text-white">
         &copy; ShikiSphere {new Date().getFullYear()}
       </p>
+
       <Link href="/">
         <Image
           src="/logo.svg"
@@ -17,22 +18,20 @@ const Footer = () => {
         />
       </Link>
 
-      <div>
-        <Link
-          href="https://github.com/kanan88/shikisphere"
-          target="_blank"
-          rel="noreferrer"
-          className="flex items-center gap-6"
-        >
-          <Image
-            src="/github.svg"
-            alt="logo"
-            width={19}
-            height={19}
-            className="object-contain"
-          />
-        </Link>
-      </div>
+      <Link
+        href="https://github.com/kanan88/shikisphere"
+        target="_blank"
+        rel="noreferrer"
+        className="flex items-center gap-6"
+      >
+        <Image
+          src="/github.svg"
+          alt="github"
+          width={19}
+          height={19}
+          className="object-contain"
+        />
+      </Link>
     </footer>
   );
 };
