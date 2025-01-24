@@ -1,68 +1,28 @@
 "use client";
 
-import { useRouter, useSearchParams } from "next/navigation";
-import { useCallback, useEffect, useState } from "react";
 import Link from "next/link";
 import AnimeCard, { type AnimeProps } from "@/components/AnimeCard";
 import ModeToggle from "@/components/ModeToggle";
 import Pagination from "@/components/Pagination";
 import { Button } from "@/components/ui/button";
-import { fetchAnime } from "@/lib/actions/anime.actions";
 import { ListCheckIcon, Search } from "lucide-react";
 import Loading from "@/components/Loading";
 import { Input } from "./ui/input";
 import { useShortlist } from "@/contexts/ShortlistProvider";
+import { useAnimeSearch } from "@/hooks/use-anime-search";
 
 const SearchAnime = () => {
-  const router = useRouter();
-  const searchParams = useSearchParams();
+  const {
+    query,
+    setQuery,
+    results,
+    page,
+    setPage,
+    loading,
+    handleSearch,
+    router,
+  } = useAnimeSearch();
   const { shortlist } = useShortlist();
-
-  const [query, setQuery] = useState<string>(() => searchParams.get("q") || "");
-  const [results, setResults] = useState<AnimeProps[]>([]);
-  const [page, setPage] = useState<number>(
-    () => Number(searchParams.get("page")) || 1
-  );
-  const [loading, setLoading] = useState(false);
-  const [debouncedQuery, setDebouncedQuery] = useState(query);
-
-  // Debounce effect
-  useEffect(() => {
-    const timer = setTimeout(() => {
-      setDebouncedQuery(query);
-    }, 500);
-    return () => clearTimeout(timer);
-  }, []);
-
-  // Fetch results when `page` or `debouncedQuery` changes
-  const fetchResults = useCallback(async () => {
-    setLoading(true);
-    try {
-      const data = await fetchAnime(page, debouncedQuery);
-      setResults(data);
-    } finally {
-      setLoading(false);
-    }
-  }, [page, debouncedQuery]);
-
-  useEffect(() => {
-    fetchResults();
-  }, [fetchResults]);
-
-  // Sync state with URL parameters
-  useEffect(() => {
-    const newQuery = searchParams.get("q") || "";
-    const newPage = Number(searchParams.get("page")) || 1;
-
-    if (newQuery !== query) setQuery(newQuery);
-    if (newPage !== page) setPage(newPage);
-  }, [searchParams]);
-
-  // Handle search button click
-  const handleSearch = () => {
-    router.push(`/?q=${query}&page=1`);
-    setPage(1);
-  };
 
   const handleKeyPress = (e: React.KeyboardEvent<HTMLInputElement>) => {
     if (e.key === "Enter") {
