@@ -1,9 +1,13 @@
 "use server";
 
+const API_BASE_URL = "https://shikimori.one/api/animes";
+
 export const fetchAnime = async (page: number, search: string) => {
   try {
     const response = await fetch(
-      `https://shikimori.one/api/animes?page=${page}&limit=8&order=popularity&search=${search}`
+      `${API_BASE_URL}/?page=${page}&limit=8&order=popularity&search=${encodeURIComponent(
+        search
+      )}`
     );
 
     if (!response.ok) {
